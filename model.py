@@ -17,19 +17,15 @@ seed = 49
 test_size = 0.30  # % size of test
 
 df = pd.read_csv(pathdf)
-print(df)
 df = df.drop(['Humidity'],axis=1)
-print(df.head())
 X_train, X_test, y_train, y_test = train_test_split(df.drop(
     Yvar, axis=1), df[Yvar], test_size=test_size, stratify=df[Yvar], random_state=seed)
 knn = KNeighborsClassifier(n_neighbors=3)
 knn.fit(X_train, y_train)
-print(accuracy_score(y_test, knn.predict(X_test)))
 
 rfe = RFE(estimator=DecisionTreeClassifier(), n_features_to_select=2)
 pipeline = Pipeline(steps=[('RFE', rfe), ('KNN', knn)])
 pipeline.fit(X_train, y_train)
 
-print(accuracy_score(y_test, pipeline.predict(X_test)))
 pickle.dump(rfe,open('model.pkl','wb'))
 model = pickle.load(open('model.pkl','rb'))
