@@ -18,8 +18,8 @@ test_size = 0.30  # % size of test
 
 df = pd.read_csv(pathdf)
 print(df)
-
-
+df = df.drop(['Humidity'],axis=1)
+print(df.head())
 X_train, X_test, y_train, y_test = train_test_split(df.drop(
     Yvar, axis=1), df[Yvar], test_size=test_size, stratify=df[Yvar], random_state=seed)
 knn = KNeighborsClassifier(n_neighbors=3)
